@@ -4,15 +4,10 @@ const SPACING: usize = 4;
 
 pub fn solve(_input: String) -> (String, String) {
     let (initial_stack, commands) = _input.split_once("\n\n").unwrap();
-    // println!("{:?}", initial_stack);
 
     let line = initial_stack.lines().rev().take(1).collect::<String>();
     let number_stacks = 1 + ((line.len() - 2) / SPACING);
     let stacks_height: usize = initial_stack.matches("[").count();
-    // println!("{:?}", line);
-    // println!("{:?}", initial_stack);
-    // println!("{}", number_stacks);
-    // println!("{}", stacks_height);
 
     let mut stacks = vec![vec![' '; stacks_height]; number_stacks];
 
@@ -31,21 +26,17 @@ pub fn solve(_input: String) -> (String, String) {
 
     let mut stacks2 = stacks.clone();
 
-    // println!("{:?}", stacks);
-
     commands.lines().for_each(|command| {
         // Vector with [amout, stack from, stack to]
         let numbers: Vec<usize> = command.split_ascii_whitespace().filter_map(|number| number.parse::<usize>().ok()).collect();
-        // println!("{:?}", numbers);
-        // println!("{:?}", stacks);
+
         let current_length = stacks[numbers[1] - 1].len();
         let mut tmp = stacks[numbers[1] - 1].split_off(current_length - numbers[0]);
         tmp.reverse();
-        // println!("{:?}", tmp);
+
         stacks[numbers[2] - 1].append(&mut tmp);
     });
 
-    // println!("{:?}", stacks);
 
     let solution1 = stacks.iter().filter_map(|stack| stack.last()).collect::<String>();
 
@@ -53,12 +44,11 @@ pub fn solve(_input: String) -> (String, String) {
     commands.lines().for_each(|command| {
         // Vector with [amout, stack from, stack to]
         let numbers: Vec<usize> = command.split_ascii_whitespace().filter_map(|number| number.parse::<usize>().ok()).collect();
-        // println!("{:?}", numbers);
-        // println!("{:?}", stacks2);
+
         let current_length = stacks2[numbers[1] - 1].len();
         let mut tmp = stacks2[numbers[1] - 1].split_off(current_length - numbers[0]);
         // tmp.reverse();
-        // println!("{:?}", tmp);
+
         stacks2[numbers[2] - 1].append(&mut tmp);
     });
 
