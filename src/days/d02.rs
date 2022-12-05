@@ -5,9 +5,9 @@
 /// B for Paper Y    => 2
 /// C for Scissors Z => 3
 /// 
-pub fn solve(input: String) -> (String, String) {
+pub fn solve(_input: String) -> (String, String) {
     
-    let rounds: Vec<&str>= input.split("\n").collect();
+    let rounds: Vec<&str>= _input.split("\n").collect();
     // println!("{:?}", rounds);
 
     let mut points1: u32 = 0;
@@ -48,7 +48,7 @@ pub fn solve(input: String) -> (String, String) {
 }
 
 #[test]
-fn verify_test() {
+fn verify_solve() {
     let base = "A Y
 B X
 C Z";

@@ -1,7 +1,7 @@
 // https://adventofcode.com/2022/day/1
 
-pub fn solve(input: String) -> (String, String) {
-    let elves: Vec<&str>= input.split("\n\n").collect();
+pub fn solve(_input: String) -> (String, String) {
+    let elves: Vec<&str>= _input.split("\n\n").collect();
 
     // Create Vector of Vector for a calories list for each elf
     let elves_list: Vec<Vec<u32>> = elves
