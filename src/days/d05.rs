@@ -2,6 +2,19 @@
 
 const SPACING: usize = 4;
 
+fn move_stacks(commands: &str, stacks: &mut Vec<Vec<char>>, multiple: bool) {
+    commands.lines().for_each(|command| {
+        // Vector with [amout, stack from, stack to]
+        let numbers: Vec<usize> = command.split_ascii_whitespace().filter_map(|number| number.parse::<usize>().ok()).collect();
+
+        let current_length = stacks[numbers[1] - 1].len();
+        let mut tmp = stacks[numbers[1] - 1].split_off(current_length - numbers[0]);
+        if !multiple { tmp.reverse(); }
+
+        stacks[numbers[2] - 1].append(&mut tmp);
+    });
+}
+
 pub fn solve(_input: String) -> (String, String) {
     let (initial_stack, commands) = _input.split_once("\n\n").unwrap();
 
@@ -26,31 +39,11 @@ pub fn solve(_input: String) -> (String, String) {
 
     let mut stacks2 = stacks.clone();
 
-    commands.lines().for_each(|command| {
-        // Vector with [amout, stack from, stack to]
-        let numbers: Vec<usize> = command.split_ascii_whitespace().filter_map(|number| number.parse::<usize>().ok()).collect();
-
-        let current_length = stacks[numbers[1] - 1].len();
-        let mut tmp = stacks[numbers[1] - 1].split_off(current_length - numbers[0]);
-        tmp.reverse();
-
-        stacks[numbers[2] - 1].append(&mut tmp);
-    });
-
+    move_stacks(commands, &mut stacks, false);
 
     let solution1 = stacks.iter().filter_map(|stack| stack.last()).collect::<String>();
 
-    // TODO: Improve this lazy copy and paste by moving to a fn
-    commands.lines().for_each(|command| {
-        // Vector with [amout, stack from, stack to]
-        let numbers: Vec<usize> = command.split_ascii_whitespace().filter_map(|number| number.parse::<usize>().ok()).collect();
-
-        let current_length = stacks2[numbers[1] - 1].len();
-        let mut tmp = stacks2[numbers[1] - 1].split_off(current_length - numbers[0]);
-        // tmp.reverse();
-
-        stacks2[numbers[2] - 1].append(&mut tmp);
-    });
+    move_stacks(commands, &mut stacks2, true);
 
     let solution2 = stacks2.iter().filter_map(|stack| stack.last()).collect::<String>();
 
